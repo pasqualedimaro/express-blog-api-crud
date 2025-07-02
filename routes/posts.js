@@ -1,75 +1,26 @@
-//inizializzo anche qui express, uso la stessa porta del server dell'index e poi uso una costante router per i CRUDS
+//inizializzo express, rimuovo anche la port che era inutile
 const express = require('express')
 const router = express.Router()
-const port = 3100
-const posts = require("../data/posts")
 
-//BONUS
-// INDEX - Restituisce la lista dei post in formato JSON con filtro per tag
-router.get('/', function (req, res){
-    // Controllo se c'è un parametro di query "tag"
-    const tagFilter = req.query.tag
-    
-    if (tagFilter) {
-        // Filtro i post che contengono il tag specificato
-        const filteredPosts = posts.filter(post => 
-            post.tags.includes(tagFilter)
-        )
-        res.json(filteredPosts)
-    } else {
-        // Se non c'è filtro, restituisco tutti i post
-        res.json(posts)
-    }
-})
-// SHOW - Restituisce un singolo post in formato JSON
-router.get('/:id', function (req, res){
-    const id = parseInt(req.params.id)
-    const postDetail = posts.find(element => element.id === id)
-    
-    if (!postDetail) {
-        return res.status(404).json({ error: 'Post non trovato' })
-    }
-    
-    res.json(postDetail);
-})
+// Importiamo il controller
+const postsController = require('../controllers/postsController')
 
-// STORE
-router.post('/', function (req, res){
-    res.send('creazione nuovo post')
-})
+// INDEX - Restituisce la lista dei post con filtro per tag
+router.get('/', postsController.index)
 
-// UPDATE
-router.put('/:id', function (req, res){
-    const id = req.params.id
-    res.send('modifica totale del post ' + req.params.id)
-})
+// SHOW - Restituisce un singolo post
+router.get('/:id', postsController.show)
 
-// MODIFY
-router.patch('/:id', function (req, res){
-    const id = req.params.id
-    res.send('modifica parziale del post ' + req.params.id)
-})
+// STORE - Crea un nuovo post
+router.post('/', postsController.store)
 
-// DESTROY - Elimina un singolo post dalla lista
-router.delete('/:id', function (req, res){
-    const id = parseInt(req.params.id)
-    
-    // Trova l'indice del post da eliminare
-    const postIndex = posts.findIndex(element => element.id === id)
-    
-    if (postIndex === -1) {
-        return res.status(404).json({ error: 'Post non trovato' })
-    }
-    
-    // Elimina il post dall'array
-    posts.splice(postIndex, 1)
-    
-    // Stampa la lista aggiornata nel terminale
-    console.log('Lista posts aggiornata:', posts)
-    
-    // Risponde con status 204 (No Content)
-    res.status(204).send()
-})
+// UPDATE - Modifica totale di un post
+router.put('/:id', postsController.update)
 
+// MODIFY - Modifica parziale di un post
+router.patch('/:id', postsController.modify)
+
+// DESTROY - Elimina un post
+router.delete('/:id', postsController.destroy)
 
 module.exports = router;
