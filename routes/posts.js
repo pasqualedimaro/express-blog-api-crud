@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 // Importiamo il controller
-const postsController = require('../controllers/postsController')
+const postsController = require('../controller/postsController')
 
 // INDEX - Restituisce la lista dei post con filtro per tag
 router.get('/', postsController.index)
