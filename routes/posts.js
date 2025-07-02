@@ -4,10 +4,23 @@ const router = express.Router()
 const port = 3100
 const posts = require("../data/posts")
 
+//BONUS
+// INDEX - Restituisce la lista dei post in formato JSON con filtro per tag
 router.get('/', function (req, res){
-    res.json(posts)
+    // Controllo se c'è un parametro di query "tag"
+    const tagFilter = req.query.tag
+    
+    if (tagFilter) {
+        // Filtro i post che contengono il tag specificato
+        const filteredPosts = posts.filter(post => 
+            post.tags.includes(tagFilter)
+        )
+        res.json(filteredPosts)
+    } else {
+        // Se non c'è filtro, restituisco tutti i post
+        res.json(posts)
+    }
 })
-
 // SHOW - Restituisce un singolo post in formato JSON
 router.get('/:id', function (req, res){
     const id = parseInt(req.params.id)
