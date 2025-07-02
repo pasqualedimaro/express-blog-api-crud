@@ -58,11 +58,10 @@ const update = (req, res) => {
     // Recupero ID
     const id = parseInt(req.params.id)
     // Cerco il post tramite ID
-    const postIndex = posts.findIndex(element => element.id === id)
+    const postIndex = posts.find(element => element.id === id)
     // Controllo
-    console.log(postIndex);
-    
-    if (!postIndex) {
+
+      if (!postIndex) {
         return res.status(404).json({ error: 'Post non trovato' })
     }
     // Aggiorno il post mantenendo ID uguale
