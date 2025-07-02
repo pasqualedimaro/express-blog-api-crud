@@ -34,10 +34,22 @@ const show = (req, res) => {
 
 // STORE - Crea un nuovo post
 const store = (req, res) => {
-    // Stampiamo i dati in arrivo nel terminale
     console.log('Dati ricevuti:', req.body)
     
-    res.send('creazione nuovo post')
+    // Genero un nuovo ID
+    const newId = posts[posts.length - 1].id + 1
+    
+    const newPost = {
+        id: newId,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    }
+    
+    posts.push(newPost)
+    
+    res.status(201).json(newPost)
 }
 
 // UPDATE - Modifica totale di un post
