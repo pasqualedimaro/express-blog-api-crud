@@ -34,6 +34,9 @@ const show = (req, res) => {
 
 // STORE - Crea un nuovo post
 const store = (req, res) => {
+    // Stampiamo i dati in arrivo nel terminale
+    console.log('Dati ricevuti:', req.body)
+    
     res.send('creazione nuovo post')
 }
 
