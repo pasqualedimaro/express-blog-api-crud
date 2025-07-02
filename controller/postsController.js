@@ -64,9 +64,8 @@ const update = (req, res) => {
       if (!postIndex) {
         return res.status(404).json({ error: 'Post non trovato' })
     }
-    // Aggiorno il post mantenendo ID uguale
-   posts[postIndex] = {
-        id: id,
+    // Aggiorno il post
+    posts[postIndex] = {
         title: req.body.title,
         content: req.body.content,
         image: req.body.image,
