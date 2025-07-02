@@ -6,8 +6,10 @@
 const express = require("express")
 const app = express()
 const port = 3100
-// aggiungo qui il percorso
 const PostRouter = require("./routes/posts")
+
+// Aggiungo il Middle per il json
+app.use(express.json())
 
 // avvio server di express nella porta che in questo caso è il mio pc
 app.listen(port, () => {
