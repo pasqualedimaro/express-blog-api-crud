@@ -53,10 +53,31 @@ const store = (req, res) => {
 }
 
 // UPDATE - Modifica totale di un post
+// La function è simile a quella utilizzata per show e destroy
 const update = (req, res) => {
-    const id = req.params.id
-    res.send('modifica totale del post ' + id)
+    // Recupero ID
+    const id = parseInt(req.params.id)
+    // Cerco il post tramite ID
+    const postIndex = posts.findIndex(element => element.id === id)
+    // Controllo
+    console.log(postIndex);
+    
+    if (!postIndex) {
+        return res.status(404).json({ error: 'Post non trovato' })
+    }
+    // Aggiorno il post mantenendo ID uguale
+   posts[postIndex] = {
+        id: id,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    }
+
+    // Post aggiornato
+    res.json(posts[postIndex])
 }
+
 
 // MODIFY - Modifica parziale di un post
 const modify = (req, res) => {
