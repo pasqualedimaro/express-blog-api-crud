@@ -23,3 +23,13 @@ app.get("/", (req, res) => (
 
 // registro router 
 app.use('/api/posts', PostRouter)
+
+
+//mi creo una cartella middleware per gestire gli errori
+// importo i middleware
+
+const {notFound} = require("./middleware/errorMiddleware")
+
+// middleware per la rotta non registrata
+
+app.use(notFound)
