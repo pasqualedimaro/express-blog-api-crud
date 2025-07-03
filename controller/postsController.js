@@ -1,6 +1,7 @@
 // Importiamo i dati dei posts
-//provo a testare l'errore 500
-const posts = undefined
+// //provo a testare l'errore 500
+// const posts = undefined
+const posts = require('../data/posts')
 
 
 // BONUS
