@@ -9,4 +9,16 @@ const notFound = (req, res, next) => {
     });
 };
 
-module.exports = {notFound}
+//creo middleware per errori del server 
+
+function errorHandler(err, req, res, next) {
+    res.status(500)
+    res.json({
+        error: err.message,
+    });
+}
+
+module.exports = {
+    notFound, 
+    errorHandler
+}
