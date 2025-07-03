@@ -53,29 +53,34 @@ const store = (req, res) => {
 }
 
 // UPDATE - Modifica totale di un post
-// La function è simile a quella utilizzata per show e destroy
 const update = (req, res) => {
-    // Recupero ID
+    // Recupero l'id dall'URL e lo trasformo in numero
     const id = parseInt(req.params.id)
-    // Cerco il post tramite ID
-    const postIndex = posts.find(element => element.id === id)
-    // Controllo
-
-      if (!postIndex) {
-        return res.status(404).json({ error: 'Post non trovato' })
+    
+    // Cerco il post tramite id
+    const post = posts.find(element => element.id === id)
+    
+    // Piccolo controllo
+    if (!post) {
+        res.status(404)
+        return res.json({
+            error: "Not Found",
+            message: "Post non trovato"
+        })
     }
-    // Aggiorno il post
-    posts[postIndex] = {
-        title: req.body.title,
-        content: req.body.content,
-        image: req.body.image,
-        tags: req.body.tags
-    }
-
-    // Post aggiornato
-    res.json(posts[postIndex])
+    
+    // Aggiorniamo il post
+    post.title = req.body.title
+    post.content = req.body.content
+    post.image = req.body.image
+    post.tags = req.body.tags
+    
+    // Controlliamo i posts
+    console.log(posts)
+    
+    // Restituiamo il post appena aggiornato
+    res.json(post)
 }
-
 
 // MODIFY - Modifica parziale di un post
 const modify = (req, res) => {
@@ -85,23 +90,30 @@ const modify = (req, res) => {
 
 // DESTROY - Elimina un post
 const destroy = (req, res) => {
+    // Recuperiamo l'id dall'URL e lo trasformiamo in numero
     const id = parseInt(req.params.id)
     
-    // Trova l'indice del post da eliminare
-    const postIndex = posts.findIndex(element => element.id === id)
+    // Cerchiamo il post tramite id
+    const post = posts.find(element => element.id === id)
     
-    if (postIndex === -1) {
-        return res.status(404).json({ error: 'Post non trovato' })
+    // Piccolo controllo
+    if (!post) {
+        res.status(404)
+        return res.json({
+            status: 404,
+            error: "Not Found",
+            message: "Post non trovato"
+        })
     }
     
-    // Elimina il post dall'array
-    posts.splice(postIndex, 1)
+    // Rimuoviamo il post dal menu
+    posts.splice(posts.indexOf(post), 1)
     
     // Stampa la lista aggiornata nel terminale
     console.log('Lista posts aggiornata:', posts)
     
-    // Risponde con status 204 (No Content)
-    res.status(204).send()
+    // Restituiamo lo status corretto
+    res.sendStatus(204)
 }
 
 // Esportiamo tutte le funzioni
